@@ -3,12 +3,14 @@
 ====================
 
 演示如何使用各种水库调度算法
+
+作者: hu hao
 """
 import sys
 import os
 import numpy as np
 
-# 将当前目录添加到路径（确保可以找到模块）
+# 将当前目录添加到路径
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from core.data_loader import load_reservoir_data, get_inflow_sequence, get_monthly_limits
