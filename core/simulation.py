@@ -134,7 +134,7 @@ def simulate_from_water_level_seq(
                 generated / num_turbines, net_head)
         else:
             print(f"警告: 第{t+1}个时段出流{Qout:.2f}大于最大下泄能力{maxQ:.2f}！")
-            # 按最大能力计算
+            # 按最大能力计算，弃不了的水就自求多福
             downstream_H = fitters.fit_H_downstream(maxQ)
             generated = num_turbines * max_generation_flow
             abandoned = maxQ - generated

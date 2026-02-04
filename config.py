@@ -75,7 +75,7 @@ class AlgorithmConfig:
     # 元启发式算法参数
     population_size: int = 100               # 种群大小
     max_iterations: int = 3500               # 最大迭代次数
-    random_seed: int = 1                     # 随机种子（保证复现性）
+    random_seed: int = 42                     # 随机种子（保证复现性）
     
     # 惩罚系数（元启发式算法）
     penalty_bounds: float = 1e4              # 水位越界惩罚
@@ -88,16 +88,16 @@ class AlgorithmConfig:
 @dataclass
 class XGBoostConfig:
     """XGBoost参数配置"""
-    max_iter: int = 50                       # 最大迭代次数
+    max_iter: int = 75                       # 最大迭代次数
     booster: str = 'gbtree'                  # 基学习器类型
     objective: str = 'reg:squarederror'      # 目标函数(Python版本用squarederror)
     max_depth: int = 5                       # 树最大深度
-    learning_rate: float = 0.1               # 学习率
+    learning_rate: float = 0.01               # 学习率
     min_child_weight: int = 1                # 最小叶子权重
     subsample: float = 0.95                  # 采样比例
     colsample_bytree: float = 1.0            # 特征采样比例
     train_test_split: tuple = (0.7, 0.3)     # 训练集:测试集比例
-    random_seed: int = 2                     # 随机种子
+    random_seed: int = 42                     # 随机种子
 
 
 # 默认配置实例

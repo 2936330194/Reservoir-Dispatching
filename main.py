@@ -52,7 +52,7 @@ def run_dp_dispatch():
     print("=" * 60)
     
     # 使用更粗的离散步长以加快计算（生产环境可用0.5m）
-    algo_config = AlgorithmConfig(d_water_level=2.0)
+    algo_config = AlgorithmConfig(d_water_level=0.5)
     
     algo = DPDispatch(algorithm_config=algo_config)
     result = algo.run()
