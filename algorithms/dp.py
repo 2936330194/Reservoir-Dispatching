@@ -34,6 +34,8 @@ class DPDispatch(BaseDispatchAlgorithm):
         # DP参数
         self.d_water_level = self.algorithm_config.d_water_level
         self.penalty_coefficient = self.algorithm_config.penalty_coefficient
+        # self.tolerance = self.algorithm_config.tolerance
+        self.tolerance = 0
     
     def _generate_state_values(self, H_min: float, H_max: float) -> np.ndarray:
         """生成离散状态值"""
@@ -185,6 +187,10 @@ class DPDispatch(BaseDispatchAlgorithm):
                 if cum > best_cum:
                     best_cum = cum
                     best_k = k
+
+                if best_cum > -np.inf:
+                    cumulative_energy[t, best_k] = best_cum
+                    backtrack[t, best_k] = best_k
         
         # 回溯最优路径
         optimal_trajectory = np.zeros(self.n_stages + 1)

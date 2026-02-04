@@ -84,6 +84,9 @@ class AlgorithmConfig:
     penalty_neg_Q: float = 5e3               # 负流量惩罚
     penalty_guarantee: float = 1e3           # 保证出力惩罚
 
+    # 保证率容差
+    tolerance: float = 1.0                   # 保证率容差（mW）
+
 
 @dataclass
 class XGBoostConfig:
