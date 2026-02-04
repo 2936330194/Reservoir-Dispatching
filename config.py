@@ -66,7 +66,7 @@ class AlgorithmConfig:
     # POA参数
     poa_max_iterations: int = 100            # POA最大迭代次数
     poa_tolerance: float = 0.01              # POA收敛容差 (m)
-    poa_water_level: float = 0.5             # 水位离散步长 (m)
+    poa_water_level: float = 0.1             # 水位离散步长 (m)
     
     # DDDP参数
     dddp_max_iterations: int = 50            # DDDP最大迭代次数

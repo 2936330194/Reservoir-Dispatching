@@ -27,14 +27,72 @@ from config import (
     DEFAULT_RESERVOIR, DEFAULT_DISPATCH, DEFAULT_ALGORITHM, DATA_FILE
 )
 
+# 水位过程线保存目录
+TRAJECTORY_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'output', 'trajectories')
 
-def run_conventional_dispatch(show_plot=True):
+
+def save_trajectory(trajectory: np.ndarray, name: str) -> str:
+    """
+    保存水位过程线到文件
+    
+    Parameters
+    ----------
+    trajectory : np.ndarray
+        水位过程线数组
+    name : str
+        保存名称（不含扩展名）
+    
+    Returns
+    -------
+    str
+        保存的文件路径
+    """
+    os.makedirs(TRAJECTORY_DIR, exist_ok=True)
+    filepath = os.path.join(TRAJECTORY_DIR, f'{name}.npy')
+    np.save(filepath, trajectory)
+    print(f"水位过程线已保存至: {filepath}")
+    return filepath
+
+
+def load_trajectory(name: str) -> np.ndarray:
+    """
+    从文件加载水位过程线
+    
+    Parameters
+    ----------
+    name : str
+        保存时使用的名称（不含扩展名）
+    
+    Returns
+    -------
+    np.ndarray
+        水位过程线数组
+    """
+    filepath = os.path.join(TRAJECTORY_DIR, f'{name}.npy')
+    if not os.path.exists(filepath):
+        raise FileNotFoundError(f"水位过程线文件不存在: {filepath}")
+    trajectory = np.load(filepath)
+    print(f"已加载水位过程线: {filepath}")
+    return trajectory
+
+
+def list_saved_trajectories() -> list:
+    """列出所有已保存的水位过程线"""
+    if not os.path.exists(TRAJECTORY_DIR):
+        return []
+    files = [f[:-4] for f in os.listdir(TRAJECTORY_DIR) if f.endswith('.npy')]
+    return files
+
+
+def run_conventional_dispatch(show_plot=True, save_result=True):
     """运行常规调度算法
     
     Parameters
     ----------
     show_plot : bool
         是否显示可视化图表，默认为True
+    save_result : bool
+        是否保存水位过程线，默认为False
     """
     print("\n" + "=" * 60)
     print("运行常规调度算法")
@@ -42,6 +100,10 @@ def run_conventional_dispatch(show_plot=True):
     
     algo = ConventionalDispatch()
     result = algo.run()
+    
+    # 保存水位过程线（可选）
+    if save_result:
+        save_trajectory(result.water_level_trajectory, 'conventional')
     
     # 可视化（可选）
     if show_plot:
@@ -52,8 +114,14 @@ def run_conventional_dispatch(show_plot=True):
     return result
 
 
-def run_dp_dispatch():
-    """运行动态规划算法"""
+def run_dp_dispatch(show_plot=True, save_result=True):
+    """运行动态规划算法
+    
+    Parameters
+    ----------
+    save_result : bool
+        是否保存水位过程线，默认为False
+    """
     print("\n" + "=" * 60)
     print("运行动态规划(DP)算法")
     print("=" * 60)
@@ -64,9 +132,15 @@ def run_dp_dispatch():
     algo = DPDispatch(algorithm_config=algo_config)
     result = algo.run()
     
-    plotter = DispatchPlotter()
-    plotter.plot_water_level_process(result, algo.H_max_full, algo.H_dead_full)
-    plotter.plot_power_energy(result)
+    # 保存水位过程线（可选）
+    if save_result:
+        save_trajectory(result.water_level_trajectory, 'dp')
+    
+    # 可视化（可选）
+    if show_plot:
+        plotter = DispatchPlotter()
+        plotter.plot_water_level_process(result, algo.H_max_full, algo.H_dead_full)
+        plotter.plot_power_energy(result)
     
     return result
 
@@ -222,6 +296,11 @@ def main():
     print("7. 算法对比")
     print("0. 退出")
     
+    # 显示已保存的水位过程线
+    saved = list_saved_trajectories()
+    if saved:
+        print(f"\n已保存的水位过程线: {', '.join(saved)}")
+    
     try:
         choice = input("\n请输入选择 (默认1): ").strip()
         if choice == "":
@@ -235,14 +314,31 @@ def main():
     elif choice == 2:
         run_dp_dispatch()
     elif choice == 3:
-        # 先运行常规调度获取初始轨迹（不显示图表）
-        conv_result = run_conventional_dispatch(show_plot=False)
-        # conv_result.water_level_trajectory[-2] = 764.7
-        run_poa_dispatch(conv_result.water_level_trajectory)
+        # POA: 尝试加载已保存的轨迹，否则运行DP调度
+        if 'dp' in saved:
+            use_saved = input("检测到已保存的DP调度轨迹，是否使用? (Y/n): ").strip().lower()
+            if use_saved != 'n':
+                trajectory = load_trajectory('dp')
+                run_poa_dispatch(trajectory)
+            else:
+                dp_result = run_dp_dispatch(show_plot=False)
+                run_poa_dispatch(dp_result.water_level_trajectory)
+        else:
+            dp_result = run_dp_dispatch(show_plot=False)
+            run_poa_dispatch(dp_result.water_level_trajectory)
     elif choice == 4:
-        # 先运行常规调度获取初始轨迹（不显示图表）
-        conv_result = run_conventional_dispatch(show_plot=False)
-        run_dddp_dispatch(conv_result.water_level_trajectory)
+        # DDDP: 尝试加载已保存的轨迹，否则运行DP调度
+        if 'dp' in saved:
+            use_saved = input("检测到已保存的DP调度轨迹，是否使用? (Y/n): ").strip().lower()
+            if use_saved != 'n':
+                trajectory = load_trajectory('dp')
+                run_dddp_dispatch(trajectory)
+            else:
+                dp_result = run_dp_dispatch(show_plot=False)
+                run_dddp_dispatch(dp_result.water_level_trajectory)
+        else:
+            dp_result = run_dp_dispatch(show_plot=False)
+            run_dddp_dispatch(dp_result.water_level_trajectory)
     elif choice == 5:
         run_dhole_dispatch()
     elif choice == 6:
