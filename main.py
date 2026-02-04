@@ -145,8 +145,18 @@ def run_dp_dispatch(show_plot=True, save_result=True):
     return result
 
 
-def run_poa_dispatch(initial_trajectory=None):
-    """运行POA逐步优化算法"""
+def run_poa_dispatch(initial_trajectory=None, show_plot=True, save_result=True):
+    """运行POA逐步优化算法
+    
+    Parameters
+    ----------
+    initial_trajectory : np.ndarray, optional
+        初始水位轨迹
+    show_plot : bool
+        是否显示可视化图表，默认为True
+    save_result : bool
+        是否保存水位过程线，默认为True
+    """
     print("\n" + "=" * 60)
     print("运行POA逐步优化算法")
     print("=" * 60)
@@ -154,8 +164,14 @@ def run_poa_dispatch(initial_trajectory=None):
     algo = POADispatch(initial_trajectory=initial_trajectory)
     result = algo.run()
     
-    plotter = DispatchPlotter()
-    plotter.plot_water_level_process(result, algo.H_max_full, algo.H_dead_full)
+    # 保存水位过程线（可选）
+    if save_result:
+        save_trajectory(result.water_level_trajectory, 'poa')
+    
+    # 可视化（可选）
+    if show_plot:
+        plotter = DispatchPlotter()
+        plotter.plot_water_level_process(result, algo.H_max_full, algo.H_dead_full)
     
     return result
 
