@@ -28,8 +28,14 @@ from config import (
 )
 
 
-def run_conventional_dispatch():
-    """运行常规调度算法"""
+def run_conventional_dispatch(show_plot=True):
+    """运行常规调度算法
+    
+    Parameters
+    ----------
+    show_plot : bool
+        是否显示可视化图表，默认为True
+    """
     print("\n" + "=" * 60)
     print("运行常规调度算法")
     print("=" * 60)
@@ -37,10 +43,11 @@ def run_conventional_dispatch():
     algo = ConventionalDispatch()
     result = algo.run()
     
-    # 可视化
-    plotter = DispatchPlotter()
-    plotter.plot_water_level_process(result, algo.H_max_full, algo.H_dead_full)
-    plotter.plot_power_energy(result)
+    # 可视化（可选）
+    if show_plot:
+        plotter = DispatchPlotter()
+        plotter.plot_water_level_process(result, algo.H_max_full, algo.H_dead_full)
+        plotter.plot_power_energy(result)
     
     return result
 
@@ -228,11 +235,13 @@ def main():
     elif choice == 2:
         run_dp_dispatch()
     elif choice == 3:
-        # 先运行常规调度获取初始轨迹
-        conv_result = run_conventional_dispatch()
+        # 先运行常规调度获取初始轨迹（不显示图表）
+        conv_result = run_conventional_dispatch(show_plot=False)
+        # conv_result.water_level_trajectory[-2] = 764.7
         run_poa_dispatch(conv_result.water_level_trajectory)
     elif choice == 4:
-        conv_result = run_conventional_dispatch()
+        # 先运行常规调度获取初始轨迹（不显示图表）
+        conv_result = run_conventional_dispatch(show_plot=False)
         run_dddp_dispatch(conv_result.water_level_trajectory)
     elif choice == 5:
         run_dhole_dispatch()

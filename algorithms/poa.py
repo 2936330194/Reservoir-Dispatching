@@ -157,10 +157,7 @@ class POADispatch(BaseDispatchAlgorithm):
             
             # 检查收敛
             max_change = np.max(np.abs(water_level_trajectory[1:-1] - old_trajectory[1:-1]))
-            
-            if (iter_num + 1) % 10 == 0:
-                print(f"    迭代 {iter_num + 1}: 总发电量 = {total_energy / 1000:.2f} GWh, "
-                      f"最大水位变化 = {max_change:.4f} m")
+            print(f"    迭代 {iter_num + 1}: 总发电量 = {total_energy / 1000:.2f} GWh, "f"最大水位变化 = {max_change:.4f} m")
             
             if max_change < self.tolerance:
                 print(f"  POA算法在{iter_num + 1}次迭代后收敛")
