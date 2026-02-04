@@ -35,7 +35,7 @@ class POADispatch(BaseDispatchAlgorithm):
         # POA参数
         self.max_iterations = self.algorithm_config.poa_max_iterations
         self.tolerance = self.algorithm_config.poa_tolerance
-        self.d_water_level = self.algorithm_config.d_water_level
+        self.d_water_level = self.algorithm_config.poa_water_level
         self.penalty_coefficient = self.algorithm_config.penalty_coefficient
         
         # 初始轨迹
