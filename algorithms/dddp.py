@@ -36,7 +36,7 @@ class DDDPDispatch(BaseDispatchAlgorithm):
         self.max_iterations = self.algorithm_config.dddp_max_iterations
         self.tolerance = self.algorithm_config.dddp_tolerance
         self.corridor_width = self.algorithm_config.dddp_corridor_width
-        self.d_water_level = 0.1  # DDDP使用更细的离散步长
+        self.d_water_level = self.algorithm_config.dddp_water_level
         self.penalty_coefficient = self.algorithm_config.penalty_coefficient
         
         # 初始轨迹

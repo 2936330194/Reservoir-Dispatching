@@ -72,6 +72,7 @@ class AlgorithmConfig:
     dddp_max_iterations: int = 50            # DDDP最大迭代次数
     dddp_tolerance: float = 0.01             # DDDP收敛容差 (m)
     dddp_corridor_width: float = 5.0         # DDDP初始走廊宽度 (m)
+    dddp_water_level: float = 0.1            # 水位离散步长 (m)
     
     # 元启发式算法参数
     population_size: int = 100               # 种群大小
