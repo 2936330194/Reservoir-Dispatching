@@ -149,7 +149,7 @@ class DPDispatch(BaseDispatchAlgorithm):
 
         # 中间阶段 (2 to n_stages-1)
         for t in range(1, self.n_stages - 1):
-            if (t + 1) % 100 == 0:
+            if (t + 1) % 50 == 0:
                 print(f"  处理第 {t + 1} 阶段...")
 
             prev_candidates = feasible_indices[t - 1]
