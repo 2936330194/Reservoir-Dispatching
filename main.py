@@ -225,7 +225,7 @@ def run_dhole_dispatch(max_iter=500, pop_size=30, show_plot=True, save_result=Tr
         是否保存水位过程线，默认为True
     """
     print("\n" + "=" * 60)
-    print("运行豺狼优化算法(DOA)")
+    print("运行豺狼优化算法(DHOLE)")
     print("=" * 60)
     
     algo_config = AlgorithmConfig(
@@ -363,7 +363,7 @@ def main():
     print("2. 运行动态规划(DP)算法")
     print("3. 运行POA逐步优化算法")
     print("4. 运行DDDP算法")
-    print("5. 运行豺狼优化算法(DOA)")
+    print("5. 运行豺狼优化算法(DHOLE)")
     print("6. 运行粒子群优化算法(PSO)")
     print("7. 算法对比")
     print("0. 退出")
@@ -412,9 +412,9 @@ def main():
             dp_result = run_dp_dispatch(show_plot=False)
             run_dddp_dispatch(dp_result.water_level_trajectory)
     elif choice == 5:
-        run_dhole_dispatch(max_iter=500, pop_size=30)
+        run_dhole_dispatch(max_iter=3000, pop_size=50)
     elif choice == 6:
-        run_pso_dispatch(max_iter=500, pop_size=30)
+        run_pso_dispatch(max_iter=3000, pop_size=50)
     elif choice == 7:
         compare_algorithms()
     else:
