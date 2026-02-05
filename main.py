@@ -210,8 +210,20 @@ def run_dddp_dispatch(initial_trajectory=None, show_plot=True, save_result=True)
     return result
 
 
-def run_dhole_dispatch(max_iter=500, pop_size=30):
-    """运行豺狼优化算法（演示模式，减少迭代次数）"""
+def run_dhole_dispatch(max_iter=500, pop_size=30, show_plot=True, save_result=True):
+    """运行豺狼优化算法（演示模式，减少迭代次数）
+    
+    Parameters
+    ----------
+    max_iter : int
+        最大迭代次数，默认为500
+    pop_size : int
+        种群大小，默认为30
+    show_plot : bool
+        是否显示可视化图表，默认为True
+    save_result : bool
+        是否保存水位过程线，默认为True
+    """
     print("\n" + "=" * 60)
     print("运行豺狼优化算法(DOA)")
     print("=" * 60)
@@ -225,15 +237,35 @@ def run_dhole_dispatch(max_iter=500, pop_size=30):
     algo = DholeDispatch(algorithm_config=algo_config)
     result = algo.run()
     
-    plotter = DispatchPlotter()
-    plotter.plot_water_level_process(result, algo.H_max_full, algo.H_dead_full)
-    plotter.plot_convergence(result)
+    # 保存水位过程线（可选）
+    if save_result:
+        save_trajectory(result.water_level_trajectory, 'dhole')
+    
+    # 可视化（可选）
+    if show_plot:
+        plotter = DispatchPlotter()
+        plotter.plot_water_level_process(result, algo.H_max_full, algo.H_dead_full)
+        
+        if result.convergence_history is not None:
+            plotter.plot_convergence(result)
     
     return result
 
 
-def run_pso_dispatch(max_iter=500, pop_size=30):
-    """运行粒子群优化算法（演示模式，减少迭代次数）"""
+def run_pso_dispatch(max_iter=500, pop_size=30, show_plot=True, save_result=True):
+    """运行粒子群优化算法（演示模式，减少迭代次数）
+    
+    Parameters
+    ----------
+    max_iter : int
+        最大迭代次数，默认为500
+    pop_size : int
+        种群大小，默认为30
+    show_plot : bool
+        是否显示可视化图表，默认为True
+    save_result : bool
+        是否保存水位过程线，默认为True
+    """
     print("\n" + "=" * 60)
     print("运行粒子群优化算法(PSO)")
     print("=" * 60)
@@ -247,9 +279,17 @@ def run_pso_dispatch(max_iter=500, pop_size=30):
     algo = PSODispatch(algorithm_config=algo_config)
     result = algo.run()
     
-    plotter = DispatchPlotter()
-    plotter.plot_water_level_process(result, algo.H_max_full, algo.H_dead_full)
-    plotter.plot_convergence(result)
+    # 保存水位过程线（可选）
+    if save_result:
+        save_trajectory(result.water_level_trajectory, 'pso')
+    
+    # 可视化（可选）
+    if show_plot:
+        plotter = DispatchPlotter()
+        plotter.plot_water_level_process(result, algo.H_max_full, algo.H_dead_full)
+        
+        if result.convergence_history is not None:
+            plotter.plot_convergence(result)
     
     return result
 
