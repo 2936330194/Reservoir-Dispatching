@@ -37,7 +37,7 @@ class DDDPDispatch(BaseDispatchAlgorithm):
         self.tolerance = self.algorithm_config.dddp_tolerance
         self.corridor_width = self.algorithm_config.dddp_corridor_width
         self.d_water_level = self.algorithm_config.dddp_water_level
-        self.penalty_coefficient = self.algorithm_config.penalty_coefficient
+        self.penalty_coefficient = self.algorithm_config.dddp_penalty_coefficient
         
         # 初始轨迹
         self.initial_trajectory = initial_trajectory
@@ -235,9 +235,8 @@ class DDDPDispatch(BaseDispatchAlgorithm):
                 np.abs(new_trajectory[1:-1] - reference_trajectory[1:-1]))
             convergence_history.append(max_water_level_change)
             
-            if (iter_num + 1) % 5 == 0:
-                print(f"    迭代 {iter_num + 1}: 总发电量 = {total_energy / 1000:.2f} GWh, "
-                      f"最大水位变化 = {max_water_level_change:.4f} m")
+            print(f"    迭代 {iter_num + 1}: 总发电量 = {total_energy / 1000:.2f} GWh, "
+                  f"最大水位变化 = {max_water_level_change:.4f} m")
             
             # 检查收敛
             if max_water_level_change < self.tolerance:

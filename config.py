@@ -59,7 +59,7 @@ class DispatchConfig:
 @dataclass
 class AlgorithmConfig:
     """算法参数配置"""
-    # DP/DDDP参数
+    # DP参数
     d_water_level: float = 0.5               # 水位离散步长 (m)
     penalty_coefficient: float = 60.0        # 保证出力惩罚系数
     
@@ -73,6 +73,7 @@ class AlgorithmConfig:
     dddp_tolerance: float = 0.01             # DDDP收敛容差 (m)
     dddp_corridor_width: float = 5.0         # DDDP初始走廊宽度 (m)
     dddp_water_level: float = 0.1            # 水位离散步长 (m)
+    dddp_penalty_coefficient: float = 60.0   # 保证出力惩罚系数
     
     # 元启发式算法参数
     population_size: int = 100               # 种群大小
