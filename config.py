@@ -76,9 +76,9 @@ class AlgorithmConfig:
     dddp_penalty_coefficient: float = 60.0   # 保证出力惩罚系数
     
     # 元启发式算法参数
-    population_size: int = 100               # 种群大小
+    population_size: int = 50                # 种群大小
     max_iterations: int = 3500               # 最大迭代次数
-    random_seed: int = 42                     # 随机种子（保证复现性）
+    random_seed: int = 42                    # 随机种子（保证复现性）
     
     # 惩罚系数（元启发式算法）
     penalty_bounds: float = 1e4              # 水位越界惩罚

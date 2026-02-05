@@ -161,7 +161,7 @@ class DholeOptimizer:
             convergence_curve[t] = Best_fitness
             
             # 进度显示
-            if (t + 1) % 100 == 0:
+            if (t + 1) % 50 == 0:
                 print(f"    DOA迭代 {t + 1}: Best fitness = {Best_fitness:.4e}")
         
         return Best_fitness, prey_global, convergence_curve

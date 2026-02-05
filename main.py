@@ -412,9 +412,9 @@ def main():
             dp_result = run_dp_dispatch(show_plot=False)
             run_dddp_dispatch(dp_result.water_level_trajectory)
     elif choice == 5:
-        run_dhole_dispatch()
+        run_dhole_dispatch(max_iter=500, pop_size=30)
     elif choice == 6:
-        run_pso_dispatch()
+        run_pso_dispatch(max_iter=500, pop_size=30)
     elif choice == 7:
         compare_algorithms()
     else:
