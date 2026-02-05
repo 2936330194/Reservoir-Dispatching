@@ -269,27 +269,52 @@ class DispatchPlotter:
         save_path: str = None
     ):
         """
-        绘制算法收敛曲线
+        Plot algorithm convergence curve.
         """
         if result.convergence_history is None:
-            print("该算法没有收敛历史记录")
+            print("No convergence history available.")
             return
-        
+
+        history = np.asarray(result.convergence_history, dtype=float).ravel()
+        finite_mask = np.isfinite(history)
+        if not np.any(finite_mask):
+            print("Convergence history has no finite values.")
+            return
+
+        history = history[finite_mask]
+        iterations = np.arange(1, len(history) + 1)
+
         fig, ax = plt.subplots(figsize=figsize)
-        
-        ax.semilogy(result.convergence_history, 'b-', linewidth=1.5)
-        ax.set_xlabel('迭代次数')
-        ax.set_ylabel('适应度值')
-        ax.set_title(f'{result.algorithm_name} 收敛曲线')
+
+        # Log scale cannot display non-positive values.
+        if np.all(history > 0):
+            ax.semilogy(iterations, history, 'b-', linewidth=1.5)
+            ax.set_ylabel('Fitness (log scale)')
+        else:
+            ax.plot(iterations, history, 'b-', linewidth=1.5)
+            ax.set_ylabel('Fitness')
+            if np.any(history <= 0):
+                ax.axhline(0.0, color='k', linestyle='--', linewidth=0.8, alpha=0.6)
+                ax.text(
+                    0.02,
+                    0.98,
+                    'Non-positive values detected; switched to linear scale.',
+                    transform=ax.transAxes,
+                    va='top',
+                    fontsize=9,
+                )
+
+        ax.set_xlabel('Iteration')
+        ax.set_title(f'{result.algorithm_name} Convergence')
         ax.grid(True)
-        
+
         plt.tight_layout()
-        
+
         if save_path:
             plt.savefig(save_path, dpi=150, bbox_inches='tight')
-        
+
         plt.show()
-    
+
     def plot_all(
         self,
         result: Any,
