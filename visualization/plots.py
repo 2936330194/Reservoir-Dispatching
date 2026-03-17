@@ -178,7 +178,7 @@ class DispatchPlotter:
         ax1.plot(range(1, n_stages + 1), sim.max_limit_Q, 'r--', linewidth=1, label='最大下泄能力')
         ax1.axhline(y=Q_min, color='g', linestyle='--', linewidth=1, label='最小下泄')
         ax1.set_xlabel('时间 (月)')
-        ax1.set_ylabel('流量 (m³/s)')
+        ax1.set_ylabel('流量 (m^3/s)')
         ax1.set_title(f'出库流量变化过程 - {result.algorithm_name}')
         ax1.legend(loc='best')
         ax1.grid(True)
@@ -205,7 +205,7 @@ class DispatchPlotter:
             ax2.bar(x, annual_outflow, label='出库水量')
         
         ax2.set_xlabel('年份')
-        ax2.set_ylabel('年总水量 (亿m³)')
+        ax2.set_ylabel('年总水量 (亿m^3)')
         ax2.set_title('年度入库与出库水量对比')
         ax2.legend(loc='best')
         ax2.grid(True)
@@ -237,7 +237,7 @@ class DispatchPlotter:
         ax1 = axes[0]
         ax1.plot(range(1, n_stages + 1), sim.abandoned_Q, 'r-', linewidth=1.5)
         ax1.set_xlabel('时间 (月)')
-        ax1.set_ylabel('弃水流量 (m³/s)')
+        ax1.set_ylabel('弃水流量 (m^3/s)')
         ax1.set_title(f'月弃水流量变化 - {result.algorithm_name}')
         ax1.grid(True)
         
@@ -251,7 +251,7 @@ class DispatchPlotter:
         
         ax2.bar(range(1, num_years + 1), annual_abandoned)
         ax2.set_xlabel('年份')
-        ax2.set_ylabel('年弃水量 (亿m³)')
+        ax2.set_ylabel('年弃水量 (亿m^3)')
         ax2.set_title('年度弃水量统计')
         ax2.grid(True)
         

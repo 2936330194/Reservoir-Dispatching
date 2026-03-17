@@ -108,8 +108,9 @@ def run_conventional_dispatch(show_plot=True, save_result=True):
     # 可视化（可选）
     if show_plot:
         plotter = DispatchPlotter()
-        plotter.plot_water_level_process(result, algo.H_max_full, algo.H_dead_full)
-        plotter.plot_power_energy(result)
+        # plotter.plot_water_level_process(result, algo.H_max_full, algo.H_dead_full)
+        # plotter.plot_power_energy(result)
+        plotter.plot_all(result, algo.inflow, algo.H_max_full, algo.H_dead_full)
     
     return result
 
@@ -139,8 +140,9 @@ def run_dp_dispatch(show_plot=True, save_result=True):
     # 可视化（可选）
     if show_plot:
         plotter = DispatchPlotter()
-        plotter.plot_water_level_process(result, algo.H_max_full, algo.H_dead_full)
-        plotter.plot_power_energy(result)
+        # plotter.plot_water_level_process(result, algo.H_max_full, algo.H_dead_full)
+        # plotter.plot_power_energy(result)
+        plotter.plot_all(result, algo.inflow, algo.H_max_full, algo.H_dead_full)
     
     return result
 
@@ -171,7 +173,8 @@ def run_poa_dispatch(initial_trajectory=None, show_plot=True, save_result=True):
     # 可视化（可选）
     if show_plot:
         plotter = DispatchPlotter()
-        plotter.plot_water_level_process(result, algo.H_max_full, algo.H_dead_full)
+        # plotter.plot_water_level_process(result, algo.H_max_full, algo.H_dead_full)
+        plotter.plot_all(result, algo.inflow, algo.H_max_full, algo.H_dead_full)
     
     return result
 
@@ -202,10 +205,8 @@ def run_dddp_dispatch(initial_trajectory=None, show_plot=True, save_result=True)
     # 可视化（可选）
     if show_plot:
         plotter = DispatchPlotter()
-        plotter.plot_water_level_process(result, algo.H_max_full, algo.H_dead_full)
-        
-        if result.convergence_history is not None:
-            plotter.plot_convergence(result)
+        # plotter.plot_water_level_process(result, algo.H_max_full, algo.H_dead_full)
+        plotter.plot_all(result, algo.inflow, algo.H_max_full, algo.H_dead_full)
     
     return result
 
@@ -244,10 +245,8 @@ def run_dhole_dispatch(max_iter=500, pop_size=30, show_plot=True, save_result=Tr
     # 可视化（可选）
     if show_plot:
         plotter = DispatchPlotter()
-        plotter.plot_water_level_process(result, algo.H_max_full, algo.H_dead_full)
-        
-        if result.convergence_history is not None:
-            plotter.plot_convergence(result)
+        # plotter.plot_water_level_process(result, algo.H_max_full, algo.H_dead_full)
+        plotter.plot_all(result, algo.inflow, algo.H_max_full, algo.H_dead_full)
     
     return result
 
@@ -286,10 +285,8 @@ def run_pso_dispatch(max_iter=500, pop_size=30, show_plot=True, save_result=True
     # 可视化（可选）
     if show_plot:
         plotter = DispatchPlotter()
-        plotter.plot_water_level_process(result, algo.H_max_full, algo.H_dead_full)
-        
-        if result.convergence_history is not None:
-            plotter.plot_convergence(result)
+        # plotter.plot_water_level_process(result, algo.H_max_full, algo.H_dead_full)
+        plotter.plot_all(result, algo.inflow, algo.H_max_full, algo.H_dead_full)
     
     return result
 
